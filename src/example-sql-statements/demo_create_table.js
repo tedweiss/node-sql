@@ -1,18 +1,21 @@
 const mysql = require('mysql')
 
 const login = require('../utils/login')
+const dbName = 'mydb'
 
 const con = mysql.createConnection({
   host: login.host,
   user: login.user,
-  password: login.password
+  password: login.password,
+  database: dbName
 })
 
 con.connect(err => {
   if (err) throw err
   console.log('Connected!')
-  con.query('CREATE DATABASE mydb', (err, result) => {
+  const sql = 'CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))'
+  con.query(sql, (err, result) => {
     if (err) throw err
-    console.log('Database created')
+    console.log('Table created')
   })
 })
